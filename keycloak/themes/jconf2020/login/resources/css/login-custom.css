@@ -1,0 +1,47 @@
+.login-pf body {
+    background: url("../img/jconf2020-bg.jpg") center no-repeat #000;
+    background-size: contain;
+}
+
+.zocial,
+a.zocial {
+    color: white;
+}
+
+.card-pf {
+    background-color: rgba(133, 122, 122, 0.3);
+    color: white;
+}
+
+.btn-primary {
+    background-color: #000063;
+    background-image: none;
+}
+
+#kc-form-options .checkbox {
+    color: white;
+}
+
+a {
+    color: white;
+}
+
+.login-pf-page {
+    padding-top: 28em !important;
+}
+
+.login-pf-page-header {
+    display: none !important;
+}
+
+#zocial-okta:before {
+    content: url(../img/okta.png);
+    position: absolute;
+    left: 0;
+    top: 6px;
+}
+
+#zocial-okta > span {
+    text-transform: capitalize;
+    margin-left: 2em;
+}
