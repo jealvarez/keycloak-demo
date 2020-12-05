@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  grafana:
+    image: grafana/grafana:7.3.4
+    ports:
+      - 3000:3000
+    environment:
+      GF_AUTH_GENERIC_OAUTH_ENABLED: 'True'
+      GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: 'True'
+      GF_AUTH_GENERIC_OAUTH_ALLOWED_DOMAINS: 192.168.99.1 test.com
+      GF_SERVER_ENFORCE_DOMAIN: 'True'
+      GF_AUTH_GENERIC_OAUTH_NAME: jconf2020
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: grafana
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: 0cd6b673-3b67-49f9-88e7-277d4fe29497
+      GF_AUTH_GENERIC_OAUTH_SCOPES: openid profile email
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: http://192.168.99.1:9000/auth/realms/jconf2020/protocol/openid-connect/auth
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: http://192.168.99.1:9000/auth/realms/jconf2020/protocol/openid-connect/token
+      GF_AUTH_GENERIC_OAUTH_API_URL: http://192.168.99.1:9000/auth/realms/jconf2020/protocol/openid-connect/userinfo
+      GF_AUTH_SIGNOUT_REDIRECT_URL: http://192.168.99.1:3000
+      GF_AUTH_DISABLE_LOGIN_FORM: 'True'
+      GF_SERVER_DOMAIN: 192.168.99.1
+    volumes: 
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  grafana-data:

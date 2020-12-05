@@ -22,6 +22,8 @@ services:
     volumes:
       - keycloak-data:/opt/jboss/startup-scripts
       - ./keycloak/themes/jconf2020:/opt/jboss/keycloak/themes/jconf2020
+      - ./keycloak/files/logging-setup.cli:/opt/jboss/startup-scripts/logging-setup.cli
+      - ./keycloak/modules/biz:/opt/jboss/keycloak/modules/biz
     environment:
       DB_VENDOR: postgres
       DB_ADDR: database

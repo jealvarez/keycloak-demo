@@ -1,0 +1,32 @@
+echo using ${env.JBOSS_HOME}/standalone/configuration/standalone-ha.xml
+
+embed-server --server-config=standalone-ha.xml --std-out=echo
+
+echo SETUP: Begin Keycloak configuration...
+echo SETUP: Configure logging
+/subsystem=logging/console-handler=CONSOLE:change-log-level(level=ALL)
+
+echo SETUP: Add GELF logging 
+/subsystem=logging/custom-handler=GELF/:add(module=biz.paluch.logging, class=biz.paluch.logging.gelf.wildfly.WildFlyGelfLogHandler, properties={ \
+       host=udp:192.168.99.1, \
+       port=12123, \
+       version="1.1", \
+       extractStackTrace=true, \
+       filterStackTrace=true, \
+       mdcProfiling=false, \
+       timestampPattern="yyyy-MM-dd HH:mm:ss,SSSS", \
+       maximumMessageSize=8192, \
+       additionalFieldTypes="SystemGroup=String,SystemComponent=String,MessageParam0=String,MessageParam1=String,MessageParam2=String,MessageParam3=String,MessageParam4=String,MessageParam5=String,MessageParam6=String" \
+})
+/subsystem=logging/custom-handler=GELF/:change-log-level(level=ALL)
+
+/subsystem=logging/root-logger=ROOT/:write-attribute(name=level,value=INFO)
+/subsystem=logging/root-logger=ROOT/:write-attribute(name=handlers,value=[CONSOLE,GELF])
+
+echo SETUP: Register custom logger
+/subsystem=logging/logger=com.jealvarez.keycloak.ext:add(category=com.jealvarez.keycloak.ext, use-parent-handlers=true, level=DEBUG)
+/subsystem=logging/logger=com.jealvarez.keycloak.ext.events:add(category=com.jealvarez.keycloak.ext.events, use-parent-handlers=true, level=DEBUG)
+                          
+echo SETUP: Adjust logging levels for custom loggers
+/subsystem=logging/logger=com.jealvarez.keycloak.ext:change-log-level(level=INFO)
+/subsystem=logging/logger=com.jealvarez.keycloak.ext.events:change-log-level(level=INFO)

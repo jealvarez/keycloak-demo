@@ -14,10 +14,12 @@ Jorge Alvarez <alvarez.jeap@gmail.com>
 
 - Add alias IP `192.168.99.1` to loopback inteface
 
-- Run application
+- Run applications. **Note. Give some time between each application to load**
 
 ```sh
-./run.sh
+./run.sh graylog
+./run.sh keycloak
+./run.sh grafana
 ```
 
 - Open [http://192.168.99.1:9000](http://192.168.99.1:9000)
